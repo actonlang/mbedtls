@@ -57,3 +57,6 @@ massif-*
 /TAGS
 /cscope*.out
 /tags
+# Zig
+zig-cache
+zig-out
