@@ -26,10 +26,6 @@ pub fn build(b: *std.Build) void {
     var flags = std.ArrayList([]const u8).init(b.allocator);
     defer flags.deinit();
 
-    // TODO: add config knob for this instead of hardcoding
-    flags.append("-D MBEDTLS_PLATFORM_C") catch unreachable;
-    flags.append("-D MBEDTLS_PLATFORM_MEMORY") catch unreachable;
-
     libcrypto.addCSourceFiles(.{
         .files = &.{
             "library/aes.c",
