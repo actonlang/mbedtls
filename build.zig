@@ -147,15 +147,15 @@ pub fn build(b: *std.Build) void {
         .flags = flags.items
     });
 
-    libcrypto.addIncludePath(.{ .path = "include" });
+    libcrypto.addIncludePath(b.path("include"));
     libcrypto.linkLibC();
-    libx509.addIncludePath(.{ .path = "include" });
+    libx509.addIncludePath(b.path("include"));
     libx509.linkLibC();
-    libtls.addIncludePath(.{ .path = "include" });
+    libtls.addIncludePath(b.path("include"));
     libtls.linkLibC();
 
-    libtls.installHeadersDirectory("include/mbedtls", "mbedtls");
-    libtls.installHeadersDirectory("include/psa", "psa");
+    libtls.installHeadersDirectory(b.path("include/mbedtls"), "mbedtls", .{});
+    libtls.installHeadersDirectory(b.path("include/psa"), "psa", .{});
 
     b.installArtifact(libcrypto);
     b.installArtifact(libx509);
