@@ -59,7 +59,6 @@ pub fn build(b: *std.Build) void {
             "library/entropy_poll.c",
             "library/error.c",
             "library/gcm.c",
-            "library/hash_info.c",
             "library/hkdf.c",
             "library/hmac_drbg.c",
             "library/lmots.c",
@@ -86,6 +85,7 @@ pub fn build(b: *std.Build) void {
             "library/psa_crypto_client.c",
             "library/psa_crypto_driver_wrappers.c",
             "library/psa_crypto_ecp.c",
+            "library/psa_crypto_ffdh.c",
             "library/psa_crypto_hash.c",
             "library/psa_crypto_mac.c",
             "library/psa_crypto_pake.c",
@@ -100,6 +100,7 @@ pub fn build(b: *std.Build) void {
             "library/rsa_alt_helpers.c",
             "library/sha1.c",
             "library/sha256.c",
+            "library/sha3.c",
             "library/sha512.c",
             "library/threading.c",
             "library/timing.c",
@@ -117,6 +118,7 @@ pub fn build(b: *std.Build) void {
             "library/x509_crl.c",
             "library/x509_crt.c",
             "library/x509_csr.c",
+            "library/x509write.c",
             "library/x509write_crt.c",
             "library/x509write_csr.c",
         },
@@ -148,10 +150,13 @@ pub fn build(b: *std.Build) void {
     });
 
     libcrypto.addIncludePath(b.path("include"));
+    libcrypto.addIncludePath(b.path("library"));
     libcrypto.linkLibC();
     libx509.addIncludePath(b.path("include"));
+    libx509.addIncludePath(b.path("library"));
     libx509.linkLibC();
     libtls.addIncludePath(b.path("include"));
+    libtls.addIncludePath(b.path("library"));
     libtls.linkLibC();
 
     libtls.installHeadersDirectory(b.path("include/mbedtls"), "mbedtls", .{});
