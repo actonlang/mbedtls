@@ -5,26 +5,35 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
     const target = b.standardTargetOptions(.{});
 
-    const libcrypto = b.addStaticLibrary(.{
+    const libcrypto = b.addLibrary(.{
         .name = "mbedcrypto",
-        .target = target,
-        .optimize = optimize,
+        .linkage = .static,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+        }),
     });
 
-    const libx509 = b.addStaticLibrary(.{
+    const libx509 = b.addLibrary(.{
         .name = "mbedx509",
-        .target = target,
-        .optimize = optimize,
+        .linkage = .static,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+        }),
     });
 
-    const libtls = b.addStaticLibrary(.{
+    const libtls = b.addLibrary(.{
         .name = "mbedtls",
-        .target = target,
-        .optimize = optimize,
+        .linkage = .static,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+        }),
     });
 
-    var flags = std.ArrayList([]const u8).init(b.allocator);
-    defer flags.deinit();
+    var flags = std.ArrayList([]const u8).empty;
+    defer flags.deinit(b.allocator);
 
     libcrypto.addCSourceFiles(.{
         .files = &.{
